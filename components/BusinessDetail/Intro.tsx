@@ -13,14 +13,15 @@ export default function intro({ business }) {
           <Ionicons name="arrow-back-circle" size={40} color="white" />
         </TouchableOpacity>
         <Ionicons name="heart-outline" size={40} color="white" />
-       
-
       </View>
+
       <Image source={{ uri: business.imageUrl }} style={styles.imageStyle} />
+
       <View style={styles.subContainer2}>
         <Text style={styles.businessName}>{business.name}</Text>
         <Text style={styles.businessAddress}>{business.address}</Text>
       </View>
+
     </View>
   )
 }
@@ -29,14 +30,12 @@ const styles = StyleSheet.create({
 
   subContainer: {
     position: 'absolute',
-    zIndex: 10,
+    zIndex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
     padding: 20,
-    paddingTop: 30,
   },
-
   imageStyle: {
     width: '100%',
     height: 340,
