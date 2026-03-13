@@ -1,5 +1,6 @@
 import { Colors } from '@/constants/theme';
 import { useUser } from '@clerk/clerk-expo';
+import { Image } from 'expo-image';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import React from 'react';
 import { StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
@@ -62,6 +63,17 @@ export default function Reviews({ business }: { business: any }) {
       </View>
       
       {/* Display Previous Reviews */}
+      <View>
+        {business?.reviews?.map((item, index) => (
+          <View key={index} >
+            <Image source={{ uri: item.userImage }} style={{ width: 50, height: 50, borderRadius: 99 }} />
+            <View>
+              <Text>{item.userName}</Text>
+              <Text>{item.comment}</Text>
+            </View>
+          </View>
+        ))}
+      </View>
     </View>
     
   )
