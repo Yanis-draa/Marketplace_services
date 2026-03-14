@@ -1,7 +1,9 @@
 import React from 'react';
-import { FlatList, Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Linking, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function ActionButton({ business }) {
+
+  // Créer un tableau d'objets pour les boutons d'action au lieu de créer chaque bouton manuellement
 
   const actionButtonMenu = [
     {
@@ -9,7 +11,6 @@ export default function ActionButton({ business }) {
       name: 'Appeler',
       icon: require('./../../assets/images/call.png'),
       url: `tel:${business?.contact}`
-
     },
     {
       id: 2,
@@ -27,15 +28,19 @@ export default function ActionButton({ business }) {
       id: 4,
       name: 'Partager',
       icon: require('./../../assets/images/share.png'),
-      // url: `google_maps://?q=${business?.address}`
+      url: business?.website
     }
   ];
 
   const OnPressHandle = (item) => {
-    if (item.name =='share') {
+    if (item.name =='Partager') {
+
+      Share.share({
+        message: business?.name+"\n Address:"+business?.address+"\n Find more details on Business Marketplace App by yanis !",
+      })
       return;
     }
-      Linking.openURL(item?.url);
+    Linking.openURL(item?.url);
   }
 
   return (

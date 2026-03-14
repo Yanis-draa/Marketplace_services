@@ -42,14 +42,16 @@ export default function Reviews({ business }: { business: any }) {
         />
         <TextInput 
           placeholder='Ecriver votre avis ici...'
-          numberOfLines={4}
+          // numberOfLines={4}
+          
           onChangeText={(value)=> setUserInput(value)}
           style={{
             borderWidth: 1,
             padding: 10,
             borderRadius: 10,
+            paddingBottom: 50,
             borderColor: Colors.GRAY,
-            marginBottom: 20,
+            // marginBottom: 20,
             textAlignVertical: 'top',
           }}
         />
@@ -65,10 +67,15 @@ export default function Reviews({ business }: { business: any }) {
       {/* Display Previous Reviews */}
       <View>
         {business?.reviews?.map((item, index) => (
-          <View key={index} >
+          <View style={{ flexDirection: 'row', gap: 10,  alignItems: 'center', padding: 10, borderWidth: 1, borderColor: Colors.GRAY, borderRadius: 15, marginTop: 10 }} key={index}>
             <Image source={{ uri: item.userImage }} style={{ width: 50, height: 50, borderRadius: 99 }} />
-            <View>
-              <Text>{item.userName}</Text>
+            <View style={styles.reviewContainer}>
+              <Text style={styles.userName}>{item.userName}</Text>
+              <Rating
+                ratingCount={item.rating}
+                imageSize={20}
+                style={{ alignItems: 'flex-start' }}
+              />
               <Text>{item.comment}</Text>
             </View>
           </View>
@@ -93,12 +100,17 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 6,
     marginTop: 10,
-    marginBottom: 40,
   },
   submitButtonText: {
     color: '#fff',
     fontFamily: 'outfit',
     textAlign: 'center',
+  },
+  reviewContainer: {
+    gap: 5,
+  },
+  userName: {
+    fontFamily: 'outfit-medium',
   }
 
 });

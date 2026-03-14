@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   },
   subContainer2: {
     padding: 20,
-    marginTop: -20,
+    marginTop: -20, // l'element va remonter de 20px pour se superposer à l'image
     backgroundColor: '#fff',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
