@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import CategoryItem from './CategoryItem';
 
-export default function Category() {
+export default function Category( {explore = false} ) {
   const [categoryList, setCategoryList] = useState([]);
   const router = useRouter();
 
@@ -37,10 +37,12 @@ export default function Category() {
 
   return (
     <View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Category</Text>
-        <Text style={styles.viewAll}>View All</Text>
-      </View>
+      {!explore &&(
+        <View style={styles.container}>
+          <Text style={styles.title}>Category</Text>
+          <Text style={styles.viewAll}>View All</Text>
+        </View>
+      )}
 
       <FlatList
         horizontal
