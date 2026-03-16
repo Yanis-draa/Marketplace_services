@@ -16,7 +16,7 @@ export default function ActionButton({ business }) {
       id: 2,
       name: 'Localisation',
       icon: require('./../../assets/images/pin.png'),
-      // url: `google_maps://?q=${business?.address}`
+      url: `https://www.google.com/maps/search/?api=1&query=${business?.address}`
     },
     {
       id: 3,
@@ -28,7 +28,6 @@ export default function ActionButton({ business }) {
       id: 4,
       name: 'Partager',
       icon: require('./../../assets/images/share.png'),
-      url: business?.website
     }
   ];
 
@@ -36,9 +35,9 @@ export default function ActionButton({ business }) {
     if (item.name =='Partager') {
 
       Share.share({
-        message: business?.name+"\n Address:"+business?.address+"\n Find more details on Business Marketplace App by yanis !",
+        message: business?.name+"\n Address:"+business?.address+"\n Find more details on Business Marketplace App",
       })
-      return;
+      return; // veut dire que la fonction s'arrête ici et ne continue pas à exécuter le code en dessous
     }
     Linking.openURL(item?.url);
   }
@@ -51,7 +50,6 @@ export default function ActionButton({ business }) {
         numColumns={4}
         renderItem={({ item, index }) => (
           <TouchableOpacity
-            key={index}
             onPress={() => {
               OnPressHandle(item);
             }}

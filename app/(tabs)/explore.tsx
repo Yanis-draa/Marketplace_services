@@ -27,6 +27,7 @@ export default function explore() {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
+    paddingTop: 40,
   },
   title: {
     fontSize: 30,
