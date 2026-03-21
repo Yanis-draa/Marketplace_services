@@ -1,10 +1,26 @@
+import ExploreBusinessList from '@/components/Explore/ExploreBusinessList';
 import Category from '@/components/Home/Category';
+import { db } from '@/configs/FirebaseConfig';
 import { Colors } from '@/constants/theme';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import React from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
+
 export default function explore() {
+
+  const [businessList, setBusinessList] = React.useState([]);
+
+  const GetBusinessByCategory = async (category) => {
+    setBusinessList([]);
+    const q = query(collection(db, 'BusinessList'), where('category', '==', category));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data());
+      setBusinessList((prev) => [...prev, { id: doc.id, ...doc.data() }]);
+    });
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Explorez Davantage</Text>
@@ -17,9 +33,12 @@ export default function explore() {
       <Category 
         explore={true}  
         onCategorySelect={(category) => {
-          console.log("Selected category:", category.name);
+          GetBusinessByCategory(category);
         }}
       />
+      {/* Business List */}
+
+      <ExploreBusinessList businessList={businessList}/>
     </View>
   )
 }
@@ -27,7 +46,9 @@ export default function explore() {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    paddingTop: 40,
+    paddingTop: 35,
+    // flex: 1,
+    // backgroundColor: 'red'
   },
   title: {
     fontSize: 30,

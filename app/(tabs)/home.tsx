@@ -5,6 +5,7 @@ import Slider from '@/components/Home/Slider'
 import React from 'react'
 import { ScrollView, View } from 'react-native'
 
+
 export default function Home() {
   return (
     <ScrollView>
@@ -13,7 +14,9 @@ export default function Home() {
       {/* Slider */}
       <Slider/>
       {/* Category */}
-      <Category/>
+      <Category onCategorySelect={(category) => {
+        console.log('Selected category:', category);
+      }}/>
       {/* Popular Business List */}
       <PopularBusiness/>
 

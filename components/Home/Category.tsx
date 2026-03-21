@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import CategoryItem from './CategoryItem';
 
-export default function Category( {explore = false} ) {
+export default function Category( {explore = false, onCategorySelect} ) {
   const [categoryList, setCategoryList] = useState([]);
   const router = useRouter();
 
@@ -35,6 +35,14 @@ export default function Category( {explore = false} ) {
     }
   };
 
+  const onCategoryPressHandler = (item) => {
+    if (!explore) {
+      router.push('/businesslist/'+item.name);
+    } else {
+      onCategorySelect(item.name);
+    }
+  }
+
   return (
     <View>
       {!explore &&(
@@ -53,8 +61,8 @@ export default function Category( {explore = false} ) {
         renderItem={({ item }) => (
           <CategoryItem
             category={item}
-            onCategoryPress={() =>
-              router.push(`/businessList/${item.name}`)
+            onCategoryPress={( category ) =>
+              onCategoryPressHandler(item)
             }
           />
         )}
