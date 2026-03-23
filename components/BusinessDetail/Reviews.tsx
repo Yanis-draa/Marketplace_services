@@ -43,7 +43,6 @@ export default function Reviews({ business }: { business: any }) {
         <TextInput 
           placeholder='Ecriver votre avis ici...'
           // numberOfLines={4}
-          
           onChangeText={(value)=> setUserInput(value)}
           style={{
             borderWidth: 1,
