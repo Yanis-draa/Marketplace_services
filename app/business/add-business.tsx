@@ -1,12 +1,15 @@
 import { Colors } from '@/constants/theme';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from 'expo-router';
-import React, { useEffect, useState } from 'react'; //  useState ajouté
+import { query } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
+
 
 export default function AddBusiness() {
   const navigation = useNavigation();
-  const [image, setImage] = useState<string | null>(null); //  type ajouté
+  const [image, setImage] = useState<string | null>(null); 
 
   useEffect(() => {
     navigation.setOptions({
@@ -17,15 +20,19 @@ export default function AddBusiness() {
 
   const onImagePick = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images, //  "mediasType" → "mediaTypes"
+      mediaTypes: ImagePicker.MediaTypeOptions.Images, 
       allowsEditing: true,
       quality: 1,
     });
 
-    if (!result.canceled) { //  vérification avant d'accéder aux assets
-      setImage(result.assets[0].uri); // "result?assets" → "result.assets"
+    if (!result.canceled) { 
+      setImage(result.assets[0].uri); 
     }
   };
+
+  const GetCategoryList = () => {
+    const q = query(collection(db))
+  }
 
   return (
     <View style={{ padding: 20 }}>
@@ -112,6 +119,18 @@ export default function AddBusiness() {
 
           }}
         />
+        <View>
+          <RNPickerSelect
+            onValueChange={(value) => console.log(value)}
+            items={[
+              { label: '', value: '' },
+
+
+            ]}
+          />
+
+         
+        </View>
       </View>
     </View>
   );

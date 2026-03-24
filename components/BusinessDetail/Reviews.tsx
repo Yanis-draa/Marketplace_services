@@ -3,86 +3,110 @@ import { useUser } from '@clerk/clerk-expo';
 import { Image } from 'expo-image';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import React from 'react';
-import { StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { Rating } from 'react-native-ratings';
 import { db } from '../../configs/FirebaseConfig';
-
-
-
 
 export default function Reviews({ business }: { business: any }) {
   const [rating, setRating] = React.useState(4);
   const [userInput, setUserInput] = React.useState('');
-  const {user} = useUser();
-  
-  const onSubmit = async () => {
-    const docRef = doc(db, 'BusinessList', business?.id);
-    await updateDoc(docRef, {
-      reviews: arrayUnion({
-        rating: rating,
-        comment: userInput,
-        userName: user?.fullName,
-        userImage: user?.imageUrl,
-        userEmail: user?.primaryEmailAddress?.emailAddress,
-      })
+  const { user } = useUser();
 
-    })
-    ToastAndroid.show('Comment Added Successfully', ToastAndroid.BOTTOM)
-  }
+  const onSubmit = async () => {
+    if (!business?.id || !user) return;
+
+    const docRef = doc(db, 'BusinessList', business.id);
+
+    try {
+      await updateDoc(docRef, {
+        reviews: arrayUnion({
+          rating: rating,
+          comment: userInput,
+          userName: user?.fullName,
+          userImage: user?.imageUrl,
+          userEmail: user?.primaryEmailAddress?.emailAddress,
+          createdAt: new Date(),
+        }),
+      });
+
+      ToastAndroid.show('Comment ajouté avec succès', ToastAndroid.BOTTOM);
+
+      // Reset après envoi
+      setUserInput('');
+      setRating(4);
+    } catch (error) {
+      console.log('Erreur:', error);
+      ToastAndroid.show('Erreur lors de l’ajout', ToastAndroid.BOTTOM);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Avis</Text>
+
+      {/* Ajouter un avis */}
       <View>
         <Rating
           showRating={false}
           imageSize={20}
-          onFinishRating={(rating) => setRating(rating)}
+          startingValue={rating}
+          onFinishRating={(value) => setRating(value)}
           style={{ paddingVertical: 10 }}
         />
-        <TextInput 
-          placeholder='Ecriver votre avis ici...'
-          // numberOfLines={4}
-          onChangeText={(value)=> setUserInput(value)}
-          style={{
-            borderWidth: 1,
-            padding: 10,
-            borderRadius: 10,
-            paddingBottom: 50,
-            borderColor: Colors.GRAY,
-            // marginBottom: 20,
-            textAlignVertical: 'top',
-          }}
+
+        <TextInput
+          placeholder="Écrivez votre avis ici..."
+          value={userInput}
+          onChangeText={(value) => setUserInput(value)}
+          multiline
+          style={styles.input}
         />
-        <TouchableOpacity 
-          disabled={!userInput}
+
+        <TouchableOpacity
+          disabled={!userInput || !user}
           onPress={onSubmit}
-          style={styles.submitButton}
+          style={[
+            styles.submitButton,
+            { opacity: !userInput || !user ? 0.5 : 1 },
+          ]}
         >
           <Text style={styles.submitButtonText}>Submit</Text>
         </TouchableOpacity>
       </View>
-      
-      {/* Display Previous Reviews */}
+
+      {/* Affichage des avis */}
       <View>
-        {business?.reviews?.map((item, index) => (
-          <View style={{ flexDirection: 'row', gap: 10,  alignItems: 'center', padding: 10, borderWidth: 1, borderColor: Colors.GRAY, borderRadius: 15, marginTop: 10 }} key={index}>
-            <Image source={{ uri: item.userImage }} style={{ width: 50, height: 50, borderRadius: 99 }} />
+        {business?.reviews?.map((item: any, index: number) => (
+          <View style={styles.reviewCard} key={item.userEmail + index}>
+            <Image
+              source={{ uri: item.userImage }}
+              style={styles.userImage}
+            />
+
             <View style={styles.reviewContainer}>
               <Text style={styles.userName}>{item.userName}</Text>
+
               <Rating
-                ratingCount={item.rating}
-                imageSize={20}
+                readonly
+                startingValue={item.rating}
+                imageSize={18}
                 style={{ alignItems: 'flex-start' }}
               />
-              <Text>{item.comment}</Text>
+
+              <Text style={styles.comment}>{item.comment}</Text>
             </View>
           </View>
         ))}
       </View>
     </View>
-    
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -93,11 +117,20 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontFamily: 'outfit-bold',
+    marginBottom: 10,
+  },
+  input: {
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10,
+    borderColor: Colors.GRAY,
+    textAlignVertical: 'top',
+    minHeight: 80,
   },
   submitButton: {
     backgroundColor: Colors.PRIMARY,
-    padding: 10,
-    borderRadius: 6,
+    padding: 12,
+    borderRadius: 8,
     marginTop: 10,
   },
   submitButtonText: {
@@ -105,11 +138,29 @@ const styles = StyleSheet.create({
     fontFamily: 'outfit',
     textAlign: 'center',
   },
+  reviewCard: {
+    flexDirection: 'row',
+    gap: 10,
+    alignItems: 'flex-start',
+    padding: 10,
+    borderWidth: 1,
+    borderColor: Colors.GRAY,
+    borderRadius: 15,
+    marginTop: 10,
+  },
+  userImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 99,
+  },
   reviewContainer: {
+    flex: 1,
     gap: 5,
   },
   userName: {
     fontFamily: 'outfit-medium',
-  }
-
+  },
+  comment: {
+    fontFamily: 'outfit',
+  },
 });
