@@ -22,6 +22,5 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 35,
     fontFamily: 'outfit-bold',
-   
   }
 });
