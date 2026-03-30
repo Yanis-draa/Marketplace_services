@@ -5,7 +5,7 @@ import { useNavigation } from 'expo-router';
 import { collection, doc, getDocs, query, setDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React, { useEffect, useState } from 'react';
-import { Image, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { db, storage } from './../../configs/FirebaseConfig';
 
@@ -25,6 +25,7 @@ export default function AddBusiness() {
   const [website, setWebsite] = useState()
   const [about, setAbout] = useState()
   const [category, setCategory] = useState()
+  const [loading, setLoading] = useState(false)
 
 
   useEffect(() => {
@@ -61,6 +62,7 @@ export default function AddBusiness() {
   }
 
   const onAddNewBusiness = async() => {
+    setLoading(true)
     const fileName = Date.now().toString()+".jpg";
     const resp = await fetch(image)
     const blob = await resp.blob()
@@ -73,10 +75,11 @@ export default function AddBusiness() {
         saveBusinessDetail(downloadUrl)
       })
     })
+    setLoading(false)
   }
   
   const saveBusinessDetail = async (imageUrl) => {
-    await setDoc(doc(db, 'BusinessDetail', Date.now().toString()), {  
+    await setDoc(doc(db, 'BusinessList', Date.now().toString()), {  
       name: name,
       address: address,
       contact: contact,
@@ -88,6 +91,7 @@ export default function AddBusiness() {
       userImage: user?.imageUrl,
       imageUrl: imageUrl
     });  
+    setLoading(false)
     ToastAndroid.show('New business addedd...',ToastAndroid.LONG)
   };
 
@@ -195,19 +199,28 @@ export default function AddBusiness() {
             items={categoryList}
           />
         </View>
-        <TouchableOpacity style={{
-          padding: 15,
-          backgroundColor: Colors.PRIMARY,
-          borderRadius: 5,
-          marginTop: 20,
-        }}
+        <TouchableOpacity 
+          disabled={loading}
+          style={{
+            padding: 15,
+            backgroundColor: Colors.PRIMARY,
+            borderRadius: 5,
+            marginTop: 20,
+          }}
           onPress={() => onAddNewBusiness()}
         >
-          <Text style={{
-            textAlign: 'center',
-            fontFamily: 'outfit-medium',
-            color: '#fff'
-          }}>Add New Business</Text>
+          {loading ? (
+            <ActivityIndicator size={'large'} color={'#fff'} />
+          ) : (
+            <Text
+              style={{
+                textAlign: 'center',
+                fontFamily: 'outfit-medium',
+                color: '#fff'
+              }}>
+                Add New Business
+            </Text>
+           )}
         </TouchableOpacity>
         
         
