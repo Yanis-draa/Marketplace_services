@@ -1,4 +1,7 @@
+import BusinessListCard from '@/components/Explore/BusinessListCard';
+import { Colors } from '@/constants/theme';
 import { useUser } from '@clerk/clerk-expo';
+import { useNavigation } from 'expo-router';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
@@ -8,13 +11,26 @@ export default function MyBusiness() {
   
   const {user} = useUser()
   const [businessList, setBusinessList] = useState([]);
+  const [loading, setLoading] = useState(false)
+  const navigation = useNavigation();
+
 
   useEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: 'My Business',
+      headerStyle: {
+        backgroundColor: Colors.PRIMARY
+      }
+
+    })
     user&&GetUserBusiness()
   },[user])
 
   // Used to get business list by user email
   const GetUserBusiness = async() => {
+    setLoading(true)
+    setBusinessList([])
     const q = query(collection(db, 'BusinessList'), where('userEmail','==',user?.primaryEmailAddress?.emailAddress))
 
     const querySnapshpt = await getDocs(q)
@@ -22,6 +38,7 @@ export default function MyBusiness() {
       console.log(doc.data())
       setBusinessList(prev => [...prev, {id: doc.id, ...doc.data()}])
     })
+    setLoading(false)
     
   }
   return (
@@ -29,6 +46,11 @@ export default function MyBusiness() {
       <Text style={styles.title}>My Business</Text>
       <FlatList 
         data={businessList}
+        onRefresh={GetUserBusiness}
+        refreshing={loading}
+        renderItem={({item, index}) => (
+          <BusinessListCard business={item} key={index} />
+        )}
       />
     </View>
   )
