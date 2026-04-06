@@ -1,9 +1,9 @@
 import { db } from '@/configs/FirebaseConfig';
-import { Colors } from '@/constants/theme';
 import { useRouter } from 'expo-router';
 import { collection, getDocs, query } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { Colors } from '../../constants/theme';
 import CategoryItem from './CategoryItem';
 
 export default function Category( {explore = false, onCategorySelect} ) {
@@ -37,7 +37,10 @@ export default function Category( {explore = false, onCategorySelect} ) {
 
   const onCategoryPressHandler = (item) => {
     if (!explore) {
-      router.push('/businesslist/'+item.name);
+
+      console.log(item.name)
+
+      router.push('/businessList/'+item.name);
     } else {
       onCategorySelect(item.name);
     }
@@ -77,7 +80,7 @@ const styles = StyleSheet.create({
     padding: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 10,
+    marginTop: 5,
   },
   title: {
     fontSize: 20,

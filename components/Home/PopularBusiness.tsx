@@ -48,12 +48,14 @@ export default function PopularBusiness() {
 
 const styles = StyleSheet.create({
   container:{
-    paddingLeft: 20,
-    marginBottom: 10,
+    // paddingLeft: 20,
+    // paddingRight: 20,
+    padding: 20,
+    marginBottom: 5,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
+    marginTop: 5,
   },
   title: {
     fontSize: 20,

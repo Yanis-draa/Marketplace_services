@@ -39,7 +39,7 @@ export default function intro({ business }) {
 
       <Image source={{ uri: business.imageUrl }} style={styles.imageStyle} />
 
-      <view style={styles.container2}>
+      <View style={styles.container2}>
         <View style={styles.subContainer3}>
           <Text style={styles.businessName}>{business.name}</Text>
           <Text style={styles.businessAddress}>{business.address}</Text>
@@ -50,7 +50,7 @@ export default function intro({ business }) {
           </TouchableOpacity>
         )}
         
-      </view>
+      </View>
 
     </View>
   )

@@ -11,6 +11,7 @@ export default function PopularBusinessCard({ business }) {
       style={styles.container}
       onPress={() => {
         router.push("/businessdetail/"+business?.id);
+        console.log("test 333")
       }}
     >
       <Image
