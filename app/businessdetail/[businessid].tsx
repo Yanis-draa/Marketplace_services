@@ -60,7 +60,8 @@ export default function BusinessDetail() {
   }
 
   return (
-    <ScrollView style={{ flex: 1 }}>
+    // style={{ flex: 1 }}
+    <ScrollView>
       {/* Intro Section */}
       <Intro business={business} />
       {/* Action Buttons */}

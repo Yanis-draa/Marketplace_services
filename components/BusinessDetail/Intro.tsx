@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { deleteDoc, doc } from 'firebase/firestore';
 import React from 'react';
 import { Alert, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import { db } from '../../configs/FirebaseConfig';
 
 export default function intro({ business }) {
   const router = useRouter();

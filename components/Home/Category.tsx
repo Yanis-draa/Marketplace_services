@@ -37,7 +37,7 @@ export default function Category( {explore = false, onCategorySelect} ) {
 
   const onCategoryPressHandler = (item) => {
     if (!explore) {
-
+ 
       console.log(item.name)
 
       router.push('/businessList/'+item.name);

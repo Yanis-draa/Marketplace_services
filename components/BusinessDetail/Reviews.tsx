@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   reviewCard: {
     flexDirection: 'row',
     gap: 10,
-    alignItems: 'flex-start',
+    // alignItems: 'flex-start',
     padding: 10,
     borderWidth: 1,
     borderColor: Colors.GRAY,

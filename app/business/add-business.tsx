@@ -225,7 +225,7 @@ export default function AddBusiness() {
         
         
 
-      
+  
         
       </View>
     </View>
