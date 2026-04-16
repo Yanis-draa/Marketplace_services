@@ -97,9 +97,9 @@ export default function AddBusiness() {
 
   return (
     <View style={{ padding: 20 }}>
-      <Text style={{ fontFamily: 'outfit-bold', fontSize: 25 }}>Add New Business</Text>
+      <Text style={{ fontFamily: 'outfit-bold', fontSize: 25 }}>Ajouter une entreprise</Text>
       <Text style={{ fontFamily: 'outfit', color: Colors.GRAY }}>
-        Fill all details in order to add new business
+        Remplissez toutes les informations pour ajouter une entreprise
       </Text>
 
       <TouchableOpacity style={{ marginTop: 20 }} onPress={onImagePick}> 
@@ -125,7 +125,6 @@ export default function AddBusiness() {
             marginTop: 10,
             borderColor: Colors.PRIMARY,
             fontFamily: 'outfit'
-
           }}
         />
         <TextInput
@@ -140,7 +139,6 @@ export default function AddBusiness() {
             marginTop: 10,
             borderColor: Colors.PRIMARY,
             fontFamily: 'outfit'
-
           }}
         />
         <TextInput
@@ -169,10 +167,9 @@ export default function AddBusiness() {
             marginTop: 10,
             borderColor: Colors.PRIMARY,
             fontFamily: 'outfit'
-
           }}
         />
-        <TextInput placeholder='About' multiline numberOfLines={5}
+        <TextInput placeholder='About' multiline numberOfLines={4}
           style={{
             padding: 10,
             borderWidth: 1,
@@ -182,8 +179,7 @@ export default function AddBusiness() {
             marginTop: 10,
             borderColor: Colors.PRIMARY,
             fontFamily: 'outfit',
-            height: 100
-
+            height: 110
           }}
         />
         <View style={{
@@ -192,7 +188,6 @@ export default function AddBusiness() {
           backgroundColor: '#fff',
           marginTop: 10,
           borderColor: Colors.PRIMARY
-
         }}>
           <RNPickerSelect
             onValueChange={(value) => setCategory(value)}
@@ -222,10 +217,6 @@ export default function AddBusiness() {
             </Text>
            )}
         </TouchableOpacity>
-        
-        
-
-  
         
       </View>
     </View>
